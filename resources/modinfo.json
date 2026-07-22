@@ -1,0 +1,15 @@
+{
+  "type": "code",
+  "modid": "pyrophobia",
+  "name": "Pyrophobia",
+  "authors": [ "stinow" ],
+  "description": "A fire-driven wildlife deterrence system for Vintage Story.",
+  "version": "0.1.0",
+  "side": "universal",
+  "requiredOnClient": true,
+  "requiredOnServer": true,
+  "networkVersion": "1.0.0",
+  "dependencies": {
+    "game": "1.22.3"
+  }
+}

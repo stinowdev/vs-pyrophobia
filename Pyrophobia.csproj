@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<!-- Release metadata lives in resources/modinfo.json. -->
+		<TargetFramework>net10.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<AssemblyName>Pyrophobia</AssemblyName>
+		<RootNamespace>Pyrophobia</RootNamespace>
+
+		<!-- Don't copy game DLLs into output -->
+		<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+
+		<!-- Path to Vintage Story installation -->
+		<VintageStoryDir Condition="'$(VINTAGE_STORY)' != ''">$(VINTAGE_STORY)</VintageStoryDir>
+		<VintageStoryDir Condition="'$(VintageStoryDir)' == ''">$(AppData)\Vintagestory</VintageStoryDir>
+	</PropertyGroup>
+
+	<!-- Game assemblies. Not redistributed -->
+	<ItemGroup>
+		<Reference Include="VintagestoryAPI">
+			<HintPath>$(VintageStoryDir)\VintagestoryAPI.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="VintagestoryLib">
+			<HintPath>$(VintageStoryDir)\VintagestoryLib.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="VSSurvivalMod">
+			<HintPath>$(VintageStoryDir)\Mods\VSSurvivalMod.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="VSEssentials">
+			<HintPath>$(VintageStoryDir)\Mods\VSEssentials.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="VSCreativeMod">
+			<HintPath>$(VintageStoryDir)\Mods\VSCreativeMod.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+			<HintPath>$(VintageStoryDir)\Lib\Newtonsoft.Json.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="protobuf-net">
+			<HintPath>$(VintageStoryDir)\Lib\protobuf-net.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="0Harmony">
+			<HintPath>$(VintageStoryDir)\Lib\0Harmony.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="cairo-sharp">
+			<HintPath>$(VintageStoryDir)\Lib\cairo-sharp.dll</HintPath>
+			<Private>false</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="resources\modinfo.json" Link="modinfo.json" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="resources\modicon.png" Link="modicon.png" CopyToOutputDirectory="PreserveNewest" Condition="Exists('resources\modicon.png')" />
+		<None Include="resources\assets\**\*" Link="assets\%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Releases\" />
+	</ItemGroup>
+
+</Project>

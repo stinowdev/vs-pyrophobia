@@ -1,0 +1,106 @@
+name: Build Release
+
+# Primary path: tag a commit on main with the version declared in modinfo.json.
+# The workflow builds that exact metadata and creates a draft GitHub release.
+# Manual runs use the metadata from the selected branch without override inputs.
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  CSPROJ: Pyrophobia.csproj
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require tag to point at main
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag ${{ github.ref_name }} does not point at a commit on main."
+            exit 1
+          fi
+          echo "Tag ${{ github.ref_name }} -> $GITHUB_SHA is on main."
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Resolve release metadata
+        id: vars
+        shell: bash
+        run: |
+          MOD_ID="$(jq -r '.modid' resources/modinfo.json)"
+          VERSION="$(jq -r '.version' resources/modinfo.json)"
+          GAME_VERSION="$(jq -r '.dependencies.game' resources/modinfo.json)"
+
+          if [[ "$GITHUB_REF" == refs/tags/* ]] && [[ "$GITHUB_REF_NAME" != "v$VERSION" ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match modinfo.json version $VERSION."
+            exit 1
+          fi
+
+          echo "mod_id=$MOD_ID" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "game_version=$GAME_VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Building $MOD_ID v$VERSION against Vintage Story $GAME_VERSION"
+
+      - name: Download Vintage Story server
+        shell: bash
+        run: |
+          GAME_VERSION="${{ steps.vars.outputs.game_version }}"
+          URL="https://cdn.vintagestory.at/gamefiles/stable/vs_server_linux-x64_${GAME_VERSION}.tar.gz"
+          echo "Fetching $URL"
+          mkdir -p "$RUNNER_TEMP/vs"
+          curl -fSL "$URL" -o "$RUNNER_TEMP/vs_server.tar.gz"
+          tar -xzf "$RUNNER_TEMP/vs_server.tar.gz" -C "$RUNNER_TEMP/vs"
+          echo "VINTAGE_STORY=$RUNNER_TEMP/vs" >> "$GITHUB_ENV"
+
+      - name: Build
+        run: dotnet build $CSPROJ -c Release -p:Version=${{ steps.vars.outputs.version }}
+
+      - name: Package
+        id: package
+        shell: bash
+        run: |
+          MOD_ID="${{ steps.vars.outputs.mod_id }}"
+          VERSION="${{ steps.vars.outputs.version }}"
+          ZIP_NAME="${MOD_ID}_${VERSION}.zip"
+          mkdir -p Releases
+          # Package the build output while excluding development-only files.
+          ( cd bin/Release && zip -r "$GITHUB_WORKSPACE/Releases/$ZIP_NAME" . -x '*.pdb' -x '*.deps.json' )
+          echo "zip_name=$ZIP_NAME" >> "$GITHUB_OUTPUT"
+          echo "zip_path=Releases/$ZIP_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.package.outputs.zip_name }}
+          path: ${{ steps.package.outputs.zip_path }}
+
+      - name: Create draft release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: ${{ steps.vars.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          draft: true
+          generate_release_notes: false
+          files: ${{ steps.package.outputs.zip_path }}
+          body: |
+            <!-- Paste the matching section from CHANGELOG.md, then publish. -->
