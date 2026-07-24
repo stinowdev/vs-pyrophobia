@@ -1,3 +1,5 @@
+using HarmonyLib;
+using Pyrophobia.Patches;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
@@ -13,9 +15,14 @@ public class PyrophobiaModSystem : ModSystem
 
     // -------------- Shared --------------
 
+    private Harmony? harmony;
+
     public override void Start(ICoreAPI api)
     {
         base.Start(api);
+
+        harmony = new Harmony(ModId);
+        TorchBrandishPatches.Apply(harmony, api.Logger);
     }
 
     // -------------- Client --------------
@@ -38,6 +45,13 @@ public class PyrophobiaModSystem : ModSystem
 
     public override void Dispose()
     {
+        if (harmony != null)
+        {
+            harmony.UnpatchAll(ModId);
+            harmony = null;
+        }
+
+        TorchBrandishPatches.Reset();
         base.Dispose();
     }
 }

@@ -1,27 +1,12 @@
 # Pyrophobia
 
-Pyrophobia is a Vintage Story mod about the relationship between fire and
+Pyrophobia is a universal code Vintage Story mod about the relationship between fire and
 wildlife: raise a torch to deter hostile animals, while torches and fires in
 the world influence how nearby animals behave.
 
-This repository is an early project baseline. The mod currently contains only
-its universal entry point and build/package scaffolding. The gameplay contract
-is being designed before implementation.
-
-## Planned direction
-
-- Hold a torch in the main hand and hold LMB to raise it defensively.
-- Give hostile animals a configurable chance to flee or abandon pursuit.
-- Let ground torches, firepits, and other fire sources create environmental
-  signals.
-- Support animals that investigate or are attracted to isolated fires instead
-  of being deterred by them.
-- Make fire source strength, animal reactions, distances, and probabilities
-  configurable.
-
-The first implementation will focus on hostile animals already targeting or
-aggressive toward the player. Other creatures and more elaborate fire behavior
-can be added later.
+The mod currently implements the brandish stance: holding right-click with a
+lit torch in the main hand raises it defensively, in first and third person.
+Animal reactions to the raised torch are the next implementation step.
 
 ## Compatibility
 
@@ -32,12 +17,43 @@ can be added later.
 Compatibility is initially tied to the installed game version. Other game
 versions remain unverified until they pass the release test matrix.
 
-## Features and design
+## Installation
 
-- [FEATURES.md](FEATURES.md) tracks feature status and locked decisions.
+1. Download the latest `pyrophobia_*.zip` from
+   [GitHub Releases](https://github.com/stinowdev/vs-pyrophobia/releases/latest).
+2. Place the zip in the Vintage Story `Mods` directory.
+3. Restart the game, or restart the server and reconnect.
+
+## Torch brandishing
+
+- Hold right-click with a lit torch in the main hand, aiming at open air or a
+  creature, to raise it.
+- Aiming at a block keeps every vanilla torch interaction: right-click places
+  the torch, holding right-click relights a placed torch, and shift +
+  right-click remains the vanilla ignite gesture for firepits and other
+  blocks.
+- Extinct and burned-out torches are never brandished.
+
+## Planned direction
+
+- Give hostile animals a configurable chance to flee or abandon pursuit.
+- Let ground torches, firepits, and other fire sources create environmental
+  signals.
+- Support animals that investigate or are attracted to isolated fires instead
+  of being deterred by them.
+- Make fire source strength, animal reactions, distances, and probabilities
+  configurable.
+
+The first reaction implementation will focus on hostile animals already
+targeting or aggressive toward the player. Other creatures and more elaborate
+fire behavior can be added later.
+
+## Documentation
+
+- [FEATURES.md](FEATURES.md) tracks implementation status and design decisions.
 - [CHANGELOG.md](CHANGELOG.md) records release changes and known limitations.
+- [docs/MODDB.html](docs/MODDB.html) is the maintained Mod DB page copy.
 - [docs/TESTING.md](docs/TESTING.md) defines the release regression matrix.
-- [docs/MODDB.html](docs/MODDB.html) contains the current Mod DB description.
 
 ## Building
 
@@ -55,9 +71,10 @@ copies that package into the active Vintage Story `Mods` directory.
 ## License
 
 See [LICENSE](LICENSE). Personal non-commercial use and pull requests back to
-the original project are allowed. Redistribution and modpacks require prior
-written permission.
+this repository are allowed. Redistribution and modpacks require prior written
+permission.
 
 ### Support
 
-You can support Pyrophobia and other projects on [Patreon](https://patreon.com/stinow).
+You can support Pyrophobia and other projects on
+[Patreon](https://patreon.com/stinow).
