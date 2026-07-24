@@ -8,13 +8,35 @@ history belongs in [CHANGELOG.md](CHANGELOG.md).
 
 | ID | Status | Feature | Config key | Default | Authority |
 |---|---|---|---|---|---|
-| F01 | Planned | Raise a main-hand torch to deter hostile animals | - | - | Server |
-| F02 | Planned | Fire sources influence nearby animal behavior | - | - | Server |
+| F01 | Implemented | Hold right-click to brandish a lit main-hand torch | - | - | Universal |
+| F02 | Planned | Fire sources, including a brandished torch, influence nearby animal behavior | - | - | Server |
 | F03 | Planned | Animals can flee, disengage, investigate, or ignore fire | - | - | Server |
 | F04 | Planned | Configure fire sources, ranges, probabilities, and reactions | - | - | Server |
 
 Planned features do not receive runtime config keys until their behavior is
 implemented.
+
+## Brandish interaction contract (F01)
+
+| Input | Action |
+|---|---|
+| Hold right-click with a lit main-hand torch, no block targeted | Raise the torch and hold the stance until released |
+| Right-click with a block targeted | Vanilla behavior: place the torch, relight a placed torch, interact |
+| Shift + right-click | Vanilla behavior: the ignite gesture for firepits and other blocks |
+
+Vanilla assigns every block-targeted right-click of a lit torch: plain
+right-click places it, and the `CanIgnite` behavior owns shift + right-click
+as the ignite gesture. Brandishing therefore only begins when no block is
+targeted, and once raised the stance holds until release even when the aim
+crosses a block.
+
+Extinct and burned-out torches, and torches held by other means than the main
+hand, never brandish. The stance eases out on release. The raise animation
+plays in third person and, through the `-fp` variant, in first person.
+
+Known limitation: aiming at an entity starts a brandish, so right-click
+entity interactions (such as boarding a boat) are consumed while a lit torch
+is in the main hand. Scoping the stance to actual threats is F02/F03 work.
 
 ## Locked decisions
 
@@ -26,6 +48,7 @@ implemented.
 | D04 | Active | The first scope is hostile animals targeting or aggressive toward the player. |
 | D05 | Planned | A scare probability is evaluated on controlled intervals, not every game tick. |
 | D06 | Planned | Fire reactions are configurable per fire source and animal behavior profile. |
+| D07 | Active | Brandishing uses the interact (right-click) channel and only begins with no block targeted, because vanilla assigns every block-targeted right-click of a lit torch: plain right-click places it and `CanIgnite` owns the shift ignite gesture. Block-targeted input reaches the mod untouched. |
 
 ## Design notes
 
