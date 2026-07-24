@@ -4,15 +4,15 @@ All notable changes to this project will be documented in this file.
 
 Feature (F) and decision (D) numbers refer to [FEATURES.md](FEATURES.md).
 
-## [v0.1.0]
+## [Unreleased]
 
 ### Added
 
 - Initial Pyrophobia project scaffold.
 - Universal client and server mod entry point.
 - F01: hold right-click with no block targeted to brandish a lit main-hand
-  torch, with third- and first-person raise animations. Block-targeted
-  right-clicks keep vanilla placement, relighting, and ignition.
+  torch (collectible behavior), with third- and first-person raise animations.
+  Block-targeted right-clicks keep vanilla placement, relighting, and ignition.
 - Initial design baseline for torch, fire, and wildlife interactions.
 - Local build and packaging script.
 - GitHub Actions build and draft-release workflow.
