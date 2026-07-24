@@ -49,23 +49,13 @@ is in the main hand. Scoping the stance to actual threats is F02/F03 work.
 | D05 | Planned | A scare probability is evaluated on controlled intervals, not every game tick. |
 | D06 | Planned | Fire reactions are configurable per fire source and animal behavior profile. |
 | D07 | Active | Brandishing uses the interact (right-click) channel and only begins with no block targeted, because vanilla assigns every block-targeted right-click of a lit torch: plain right-click places it and `CanIgnite` owns the shift ignite gesture. Block-targeted input reaches the mod untouched. |
+| D08 | Active | F01 is a `CollectibleBehavior` prepended onto lit torches in `AssetsFinalize` (both sides), not Harmony. Must run before `CanIgnite` and use `PreventSubsequent` while raised so aim-crossing a block cannot start fires. Code attach (not a JSON patch) so we can skip extinct / non-torch `BlockTorch` assets. |
 
-## Design notes
+## Extension inventory
 
-Fire is treated as a signal, not a universal fear effect. A torch held up by
-the player may be more immediate and threatening than a distant firepit. Some
-predatory animals may investigate an isolated fire, creating a configurable
-counter-effect rather than a guaranteed safety zone.
-
-The first release should distinguish between:
-
-- fleeing from the player;
-- abandoning an active pursuit without fleeing;
-- investigating a fire source; and
-- remaining unaffected.
-
-## Configuration contract
-
-The scaffold has no runtime configuration yet. Add serialized settings only
+| Kind | Type | Side | Feature | Notes |
+|---|---|---|---|---|
+| CollectibleBehavior | `BrandishTorch` | Universal | F01 | Prepended in `AssetsFinalize` on lit `BlockTorch`. Stance is in-memory, not `Attributes`. |
+erialized settings only
 when a feature uses them, define ownership and synchronization here, and
 document user-facing values in [README.md](README.md).

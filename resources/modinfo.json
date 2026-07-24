@@ -8,7 +8,6 @@
   "side": "universal",
   "requiredOnClient": true,
   "requiredOnServer": true,
-  "networkVersion": "1.0.0",
   "dependencies": {
     "game": "1.22.3"
   }
