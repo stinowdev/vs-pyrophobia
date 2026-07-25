@@ -9,7 +9,7 @@ history belongs in [CHANGELOG.md](CHANGELOG.md).
 | ID | Status | Feature | Config key | Default | Authority |
 |---|---|---|---|---|---|
 | F01 | Implemented | Hold right-click to brandish a lit main-hand torch | - | - | Universal |
-| F02 | In progress | Fire sources influence nearby animals — F02a brandish scare done; ground fires later | - | range 12 / chance 0.25 / 1s | Server |
+| F02 | In progress | Fire sources influence nearby animals - F02a brandish scare done; ground fires later | - | range 12 / chance 0.25 / 1s | Server |
 | F03 | Planned | Animals can flee, disengage, investigate, or ignore fire | - | - | Server |
 | F04 | Planned | Configure fire sources, ranges, probabilities, and reactions | - | - | Server |
 
@@ -50,7 +50,7 @@ is in the main hand. Scoping the stance to actual threats is F02/F03 work.
 | D06 | Planned | Fire reactions are configurable per fire source and animal behavior profile. |
 | D07 | Active | Brandishing uses the interact (right-click) channel and only begins with no block targeted, because vanilla assigns every block-targeted right-click of a lit torch: plain right-click places it and `CanIgnite` owns the shift ignite gesture. Block-targeted input reaches the mod untouched. |
 | D08 | Active | F01 is a `CollectibleBehavior` prepended onto lit torches in `AssetsFinalize` (both sides), not Harmony. Must run before `CanIgnite` and use `PreventSubsequent` while raised so aim-crossing a block cannot start fires. Code attach (not a JSON patch) so we can skip extinct / non-torch `BlockTorch` assets. |
-| D09 | Active | F02 ships in slices. F02a: brandished torch only — no ground fires, no config. Later: placed fire sources (F02b), richer reactions (F03). |
+| D09 | Active | F02 ships in slices. F02a: brandished torch only - no ground fires, no config. Later: placed fire sources (F02b), richer reactions (F03). |
 | D10 | Active | F02a calls vanilla `AiTaskFleeEntity` / `AiTaskFleeEntityR`.InstaFleeFrom when an active aggressive targetable task is targeting the brandishing player. No custom AI task. |
 
 ## Extension inventory
@@ -62,7 +62,7 @@ is in the main hand. Scoping the stance to actual threats is F02/F03 work.
 
 ## F02a (done)
 
-Brandishing players: nearby hostiles actively targeting them get a periodic chance to flee via `InstaFleeFrom`. No network channel — relies on use sync for server brandish state (confirm on dedicated server).
+Brandishing players: nearby hostiles actively targeting them get a periodic chance to flee via `InstaFleeFrom`. No network channel - relies on use sync for server brandish state (confirm on dedicated server).
 
 **Later:** F02b ground fires, F03 reaction profiles, F04 config.
 ## Design notes

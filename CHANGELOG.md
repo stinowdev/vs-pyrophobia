@@ -6,6 +6,8 @@ Feature (F) and decision (D) numbers refer to [FEATURES.md](FEATURES.md).
 
 ## [Unreleased]
 
+## [0.1.0-pre.1]
+
 ### Added
 
 - Initial Pyrophobia project scaffold.

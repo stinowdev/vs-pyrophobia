@@ -7,7 +7,7 @@ using Vintagestory.GameContent;
 namespace Pyrophobia.Scare;
 
 /// <summary>
-/// F02a / D03–D05 / D09–D10: server tick - brandishing players periodically
+/// F02a / D03-D05 / D09-D10: server tick - brandishing players periodically
 /// scare hostiles that are actively targeting them via vanilla InstaFleeFrom.
 /// (Main thread. Hardcoded knobs until F04)
 /// </summary>
