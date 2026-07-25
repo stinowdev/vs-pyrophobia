@@ -4,9 +4,9 @@ Pyrophobia is a universal code Vintage Story mod about the relationship between 
 wildlife: raise a torch to deter hostile animals, while torches and fires in
 the world influence how nearby animals behave.
 
-The mod currently implements the brandish stance: holding right-click with a
-lit torch in the main hand raises it defensively, in first and third person.
-Animal reactions to the raised torch are the next implementation step.
+The mod currently implements the brandish stance and a first animal reaction:
+holding right-click with a lit torch raises it, and nearby hostiles that are
+targeting you may flee while it is raised.
 
 ## Compatibility
 

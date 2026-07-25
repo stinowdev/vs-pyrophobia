@@ -25,11 +25,10 @@ public class CollectibleBehaviorBrandishTorch : CollectibleBehavior
 
     internal static void ResetStanceState() => BrandishingByEntityId.Clear();
 
-    /// <summary>
-    /// PreventDefault marks the use as handled so the caller sets
-    /// <c>Controls.HandUse</c>. With a block targeted or Shift held we
-    /// PassThrough, which keeps placement, relighting, and CanIgnite vanilla.
-    /// </summary>
+    /// <summary>Query for F02 scare checks (populated on both sides via use sync).</summary>
+    internal static bool IsBrandishing(EntityAgent byEntity) =>
+        BrandishingByEntityId.ContainsKey(byEntity.EntityId);
+
     public override void OnHeldInteractStart(
         ItemSlot slot,
         EntityAgent byEntity,
@@ -55,10 +54,6 @@ public class CollectibleBehaviorBrandishTorch : CollectibleBehavior
         handling = EnumHandling.PreventDefault;
     }
 
-    /// <summary>
-    /// Keep HandUse active for the hold duration, even when aim later crosses
-    /// a block. PreventSubsequent stops CanIgnite from treating that as ignite.
-    /// </summary>
     public override bool OnHeldInteractStep(
         float secondsUsed,
         ItemSlot slot,
@@ -76,9 +71,6 @@ public class CollectibleBehaviorBrandishTorch : CollectibleBehavior
         return true;
     }
 
-    /// <summary>
-    /// Accept cancellation (release / swap) and ease the stance out.
-    /// </summary>
     public override bool OnHeldInteractCancel(
         float secondsUsed,
         ItemSlot slot,
@@ -98,11 +90,6 @@ public class CollectibleBehaviorBrandishTorch : CollectibleBehavior
         return true;
     }
 
-    /// <summary>
-    /// Brandishing produces no effect on stop. PreventSubsequent keeps
-    /// CanIgnite's stop handler from starting fires after a long hold that
-    /// began as a brandish and later aimed at a block.
-    /// </summary>
     public override void OnHeldInteractStop(
         float secondsUsed,
         ItemSlot slot,
@@ -120,10 +107,6 @@ public class CollectibleBehaviorBrandishTorch : CollectibleBehavior
         handling = EnumHandling.PreventSubsequent;
     }
 
-    /// <summary>
-    /// Only active brandishes get the stance animation; vanilla uses such as
-    /// the ignite gesture keep their own animation.
-    /// </summary>
     public override string GetHeldTpUseAnimation(
         ItemSlot activeHotbarSlot,
         Entity forEntity,
@@ -140,10 +123,6 @@ public class CollectibleBehaviorBrandishTorch : CollectibleBehavior
         return null!;
     }
 
-    /// <summary>
-    /// Lit main-hand torch only. Slot identity keeps mirrored calls for other
-    /// slots or entities on their vanilla path.
-    /// </summary>
     private bool IsBrandishableTorch(ItemSlot slot, Entity byEntity)
     {
         if (collObj is not BlockTorch torch ||
@@ -158,9 +137,6 @@ public class CollectibleBehaviorBrandishTorch : CollectibleBehavior
 
         return true;
     }
-
-    private static bool IsBrandishing(EntityAgent byEntity) =>
-        BrandishingByEntityId.ContainsKey(byEntity.EntityId);
 
     private static void SetBrandishing(EntityAgent byEntity, bool value)
     {

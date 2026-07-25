@@ -1,5 +1,6 @@
 using System;
 using Pyrophobia.Behaviors;
+using Pyrophobia.Scare;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
@@ -9,10 +10,15 @@ namespace Pyrophobia;
 
 /// <summary>
 /// Pyrophobia entry point. F01 attaches in <see cref="AssetsFinalize"/> (D08).
+/// F02a scare tick is server-only (D03).
 /// </summary>
 public class PyrophobiaModSystem : ModSystem
 {
     public const string ModId = "pyrophobia";
+
+    private ICoreServerAPI? sapi;
+    private BrandishScareService? scare;
+    private long scareListenerId;
 
     public override void Start(ICoreAPI api)
     {
@@ -77,11 +83,24 @@ public class PyrophobiaModSystem : ModSystem
     public override void StartServerSide(ICoreServerAPI api)
     {
         base.StartServerSide(api);
-        api.Logger.Notification("[{0}] server side loaded.", ModId);
+        sapi = api;
+        scare = new BrandishScareService(api);
+        scareListenerId=api.Event.RegisterGameTickListener(scare.OnTick,
+            e => api.Logger.Error("[{0}] brandish scare tick failed: {1}", ModId, e),
+            BrandishScareService.IntervalMs);
+        api.Logger.Notification("[{0}] server side loaded (F02a scare every {1}ms).", ModId, BrandishScareService.IntervalMs);
     }
 
     public override void Dispose()
     {
+        if (sapi != null && scareListenerId != 0)
+        {
+            sapi.Event.UnregisterGameTickListener(scareListenerId);
+            scareListenerId = 0;
+        }
+
+        scare = null;
+        sapi = null;
         CollectibleBehaviorBrandishTorch.ResetStanceState();
         base.Dispose();
     }
