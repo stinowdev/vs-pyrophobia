@@ -1,4 +1,5 @@
 # Pyrophobia
+<img width="400" alt="pyrophobia" src="https://github.com/user-attachments/assets/a823f8cb-4516-4800-8504-9fe242ea0d72" />
 
 Pyrophobia is a universal code Vintage Story mod about the relationship between fire and
 wildlife: raise a torch to deter hostile animals, while torches and fires in
