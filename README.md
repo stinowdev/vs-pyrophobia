@@ -78,4 +78,4 @@ permission.
 ### Support
 
 You can support Pyrophobia and other projects on
-[Patreon](https://patreon.com/stinow).
+[Ko-fi](https://ko-fi.com/stinow).
