@@ -9,6 +9,9 @@ Releases/
 *.user
 *.suo
 
+# Local release verification
+/docs/TESTING.md
+
 # OS
 Thumbs.db
 .DS_Store

@@ -67,7 +67,6 @@ copies that package into the active Vintage Story `Mods` directory.
 - [FEATURES.md](FEATURES.md) tracks implementation status and design decisions.
 - [CHANGELOG.md](CHANGELOG.md) records release changes and known limitations.
 - [docs/MODDB.html](docs/MODDB.html) is the maintained Mod DB page copy.
-- [docs/TESTING.md](docs/TESTING.md) defines the release regression matrix.
 
 ## License
 
