@@ -85,7 +85,7 @@ public class PyrophobiaModSystem : ModSystem
         base.StartServerSide(api);
         sapi = api;
         scare = new BrandishScareService(api);
-        scareListenerId=api.Event.RegisterGameTickListener(scare.OnTick,
+        scareListenerId = api.Event.RegisterGameTickListener(scare.OnTick,
             e => api.Logger.Error("[{0}] brandish scare tick failed: {1}", ModId, e),
             BrandishScareService.IntervalMs);
         api.Logger.Notification("[{0}] server side loaded (F02a scare every {1}ms).", ModId, BrandishScareService.IntervalMs);

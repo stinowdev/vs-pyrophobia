@@ -8,22 +8,6 @@ The mod currently implements the brandish stance and a first animal reaction:
 holding right-click with a lit torch raises it, and nearby hostiles that are
 targeting you may flee while it is raised.
 
-## Compatibility
-
-- Targets Vintage Story **1.22.3** and .NET 10.
-- Loads on both the client and server.
-- Has no required dependencies beyond the game.
-
-Compatibility is initially tied to the installed game version. Other game
-versions remain unverified until they pass the release test matrix.
-
-## Installation
-
-1. Download the latest `pyrophobia_*.zip` from
-   [GitHub Releases](https://github.com/stinowdev/vs-pyrophobia/releases/latest).
-2. Place the zip in the Vintage Story `Mods` directory.
-3. Restart the game, or restart the server and reconnect.
-
 ## Torch brandishing
 
 - Hold right-click with a lit torch in the main hand, aiming at open air or a
@@ -48,12 +32,21 @@ The first reaction implementation will focus on hostile animals already
 targeting or aggressive toward the player. Other creatures and more elaborate
 fire behavior can be added later.
 
-## Documentation
+## Compatibility
 
-- [FEATURES.md](FEATURES.md) tracks implementation status and design decisions.
-- [CHANGELOG.md](CHANGELOG.md) records release changes and known limitations.
-- [docs/MODDB.html](docs/MODDB.html) is the maintained Mod DB page copy.
-- [docs/TESTING.md](docs/TESTING.md) defines the release regression matrix.
+- Targets Vintage Story **1.22.3** and .NET 10.
+- Loads on both the client and server.
+- Has no required dependencies beyond the game.
+
+Compatibility is initially tied to the installed game version. Other game
+versions remain unverified until they pass the release test matrix.
+
+## Installation
+
+1. Download the latest `pyrophobia_*.zip` from
+   [GitHub Releases](https://github.com/stinowdev/vs-pyrophobia/releases/latest).
+2. Place the zip in the Vintage Story `Mods` directory.
+3. Restart the game, or restart the server and reconnect.
 
 ## Building
 
@@ -68,13 +61,20 @@ dotnet build
 The build script creates `Releases/pyrophobia_<version>.zip`. `-Deploy` also
 copies that package into the active Vintage Story `Mods` directory.
 
+## Documentation
+
+- [FEATURES.md](FEATURES.md) tracks implementation status and design decisions.
+- [CHANGELOG.md](CHANGELOG.md) records release changes and known limitations.
+- [docs/MODDB.html](docs/MODDB.html) is the maintained Mod DB page copy.
+- [docs/TESTING.md](docs/TESTING.md) defines the release regression matrix.
+
 ## License
 
 See [LICENSE](LICENSE). Personal non-commercial use and pull requests back to
 this repository are allowed. Redistribution and modpacks require prior written
 permission.
 
-### Support
+## Support
 
 You can support Pyrophobia and other projects on
-[Patreon](https://patreon.com/stinow).
+[Ko-fi](https://ko-fi.com/stinow).

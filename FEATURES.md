@@ -1,8 +1,8 @@
 # Pyrophobia design
 
-This document tracks feature status and the design decisions that constrain
-future work. User-facing behavior belongs in [README.md](README.md); release
-history belongs in [CHANGELOG.md](CHANGELOG.md).
+This file defines what Pyrophobia implements and the decisions that constrain
+future work. See [README.md](README.md) for player documentation and
+[CHANGELOG.md](CHANGELOG.md) for release history.
 
 ## Feature status
 
@@ -52,19 +52,8 @@ is in the main hand. Scoping the stance to actual threats is F02/F03 work.
 | D08 | Active | F01 is a `CollectibleBehavior` prepended onto lit torches in `AssetsFinalize` (both sides), not Harmony. Must run before `CanIgnite` and use `PreventSubsequent` while raised so aim-crossing a block cannot start fires. Code attach (not a JSON patch) so we can skip extinct / non-torch `BlockTorch` assets. |
 | D09 | Active | F02 ships in slices. F02a: brandished torch only - no ground fires, no config. Later: placed fire sources (F02b), richer reactions (F03). |
 | D10 | Active | F02a calls vanilla `AiTaskFleeEntity` / `AiTaskFleeEntityR`.InstaFleeFrom when an active aggressive targetable task is targeting the brandishing player. No custom AI task. |
+| D11 | Active | F02a registers no network channel. The server reads brandish state from vanilla's own use synchronisation rather than a Pyrophobia packet, which is why `modinfo.json` carries no `networkVersion`. Adding one is a protocol change and a release note. |
 
-## Extension inventory
-
-| Kind | Type | Side | Feature | Notes |
-|---|---|---|---|---|
-| CollectibleBehavior | `BrandishTorch` | Universal | F01 | Prepended in `AssetsFinalize` on lit `BlockTorch`. Stance is in-memory, not `Attributes`. |
-| Server tick | `BrandishScareService` | Server | F02a | 1s interval; range 12; flee chance 0.25. |
-
-## F02a (done)
-
-Brandishing players: nearby hostiles actively targeting them get a periodic chance to flee via `InstaFleeFrom`. No network channel - relies on use sync for server brandish state (confirm on dedicated server).
-
-**Later:** F02b ground fires, F03 reaction profiles, F04 config.
 ## Design notes
 
 Fire is treated as a signal, not a universal fear effect. A torch held up by
@@ -78,6 +67,13 @@ The first release should distinguish between:
 - abandoning an active pursuit without fleeing;
 - investigating a fire source; and
 - remaining unaffected.
+
+### Brandish state on a dedicated server
+
+F02a reads the brandishing player's stance on the server without a packet of its
+own (D11). That path is unverified on a dedicated server with a separate client,
+and it is the first thing to check if the scare fires in singleplayer but not in
+multiplayer.
 
 ## Configuration contract
 
